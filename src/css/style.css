@@ -254,7 +254,7 @@ button {
   grid-column: 3;
 }
 
-.cart-footer hide {
+.hidden {
   display: none;
 }
 

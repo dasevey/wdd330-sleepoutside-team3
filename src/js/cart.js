@@ -49,5 +49,24 @@ function cartItemTemplate(item) {
 
   return newItem;
 }
+function renderCartTotal() {
+  const cartItems = JSON.parse(localStorage.getItem("so-cart")) || [];
+  const cartFooter = document.querySelector(".cart-footer");
+  const totalEl = document.getElementById("cart-total");
+
+  if (cartItems.length === 0) {
+    cartFooter.classList.add("hidden");
+    return;
+  }
+
+  const total = cartItems.reduce((sum, item) => {
+    return sum + Number(item.FinalPrice);
+  }, 0);
+
+  totalEl.textContent = total.toFixed(2);
+  cartFooter.classList.remove("hidden");
+}
+
+renderCartTotal();
 
 renderCartContents();
