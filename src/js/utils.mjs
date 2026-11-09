@@ -44,3 +44,32 @@ export function renderListWithTemplate(
   }
   parentElement.insertAdjacentHTML(position, htmlStrings.join(""));
 }
+
+export function renderWithTemplate(template, parentElement, data, callback) {
+  parentElement.innerHTML = template;
+  if (callback) {
+    callback(data);
+  }
+}
+
+export async function loadTemplate(path) {
+  const response = await fetch(path);
+  if (!response.ok) {
+    throw new Error(`Unable to load template: ${path}`);
+  }
+  return response.text();
+}
+
+export async function loadHeaderFooter() {
+  await Promise.all(
+    ["header", "footer"].map(async (section) => {
+      const element = document.querySelector(`#main-${section}`);
+      try {
+        const template = await loadTemplate(`/partials/${section}.html`);
+        renderWithTemplate(template, element);
+      } catch {
+        element.textContent = `Unable to load the ${section}. Please refresh the page.`;
+      }
+    }),
+  );
+}
