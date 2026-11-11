@@ -23,22 +23,28 @@ export function setClick(selector, callback) {
 }
 
 // get the product id from the query string
-//export function getParam(param) {
-//  const queryString = window.location.search;
-//  const urlParams = new URLSearchParams(queryString);
-//  const product = urlParams.get(param);
-//  return product;
-//}
+export function getParam(param) {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const product = urlParams.get(param);
+  return product;
+}
 
+// render a list of items into the page using a template function
+// templateFn: function that receives one item and returns an HTML string
+// parentElement: the element where the HTML goes
+// list: the array of items
+// position: where to insert (insertAdjacentHTML positions), default "afterbegin"
+// clear: when true, empties the parent before inserting
 export function renderListWithTemplate(
-  template,
+  templateFn,
   parentElement,
   list,
   position = "afterbegin",
   clear = false,
 ) {
-  const htmlStrings = list.map(template);
-  // if clear is true we need to clear out the contents of the parent.
+  // map turns each item into an HTML string, join glues them together
+  const htmlStrings = list.map(templateFn);
   if (clear) {
     parentElement.innerHTML = "";
   }
